@@ -26,13 +26,24 @@ module RedmineSubtaskListAccordion
         #switch by redmine version
         if subtask_list_accordion_tree_render_32?
           s = '<form><table class="list issues">'
+          collapsed_level = 999;
           issue_list(issue.descendants.visible.preload(:status, :priority, :tracker).sort_by(&:lft)) do |child, level|
+            if collapsed_level < level
+              expand_tree_at_first = false
+              show_at_first = false
+            else
+              expand_tree_at_first = expand_tree_at_first?(issue, child)
+              show_at_first = true;
+              collapsed_level = expand_tree_at_first ? 999 : level
+            end
+
             arrow = (child.descendants.visible.count > 0 ? content_tag('span', '', :class => 'treearrow') : ''.html_safe)
+            expand_tree_at_first = expand_tree_at_first?(issue, child)
             css = "issue issue-#{child.id} hascontextmenu"
             css << " haschild" if child.children?
-            css << (expand_tree_at_first?(issue) ? " expand" : " collapse")
+            css << (expand_tree_at_first ? " expand" : " collapse")
             css << " idnt idnt-#{level}" if level > 0
-            hide_or_show = 'display: none;' unless level <= 0 || expand_tree_at_first?(issue)
+            hide_or_show = 'display: none;' unless level <= 0 || show_at_first
             s << content_tag('tr',
                   content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
                   content_tag('td', arrow + link_to_issue(child, :project => (issue.project_id != child.project_id)), :class => 'subject', :style => 'width: 50%') +
@@ -45,13 +56,24 @@ module RedmineSubtaskListAccordion
           s.html_safe
         else
           s = '<table class="list issues odd-even">'
+          collapsed_level = 999;
           issue_list(issue.descendants.visible.preload(:status, :priority, :tracker, :assigned_to).sort_by(&:lft)) do |child, level|
+            if collapsed_level < level
+              expand_tree_at_first = false
+              show_at_first = false
+            else
+              expand_tree_at_first = expand_tree_at_first?(issue, child)
+              show_at_first = true
+              collapsed_level = expand_tree_at_first ? 999 : level
+            end
+
             arrow = (child.descendants.visible.count > 0 ? content_tag('span', '', :class => 'treearrow') : ''.html_safe)
             css = "issue issue-#{child.id} hascontextmenu #{child.css_classes}"
             css << " haschild" if child.children?
-            css << (expand_tree_at_first?(issue) ? " expand" : " collapse")
+            css << (expand_tree_at_first ? " expand" : " collapse")
             css << " idnt idnt-#{level}" if level > 0
-            hide_or_show = 'display: none;' unless level <= 0 || expand_tree_at_first?(issue)
+            hide_or_show = 'display: none;' unless level <= 0 || show_at_first
+
             s << content_tag('tr',
                   content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
                   content_tag('td', arrow + link_to_issue(child, :project => (issue.project_id != child.project_id)), :class => 'subject', :style => 'width: 50%') +
@@ -68,7 +90,17 @@ module RedmineSubtaskListAccordion
         end
       end
 
-      def expand_tree_at_first?(issue)
+      def expand_tree_at_first?(issue, child)
+        expand_all = Setting.plugin_redmine_subtask_list_accordion['expand_all']
+        if expand_all
+          collapsed_tracker_ids = Setting.plugin_redmine_subtask_list_accordion['collapsed_tracker_ids']
+          if collapsed_tracker_ids.present?
+            return collapsed_tracker_ids.exclude?(child.tracker.id.to_s)
+          end
+
+          return true
+        end
+
         return issue.descendants.visible.count <= User.current.pref.subtasks_default_expand_limit_upper
       end
 
