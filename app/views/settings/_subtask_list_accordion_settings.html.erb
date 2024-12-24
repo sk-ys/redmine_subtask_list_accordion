@@ -1,4 +1,34 @@
-<div>
-  <%= check_box_tag 'settings[enable_server_scripting_mode]', true, settings['enable_server_scripting_mode'] %>
-  <%= l(:label_enable_server_scripting_mode).html_safe %>
-</div>
+<p>
+  <label><%= l(:label_enable_server_scripting_mode) %></label>
+  <%= check_box_tag 'settings[enable_server_scripting_mode]', true, settings['enable_server_scripting_mode'] %><br/>
+  <em><%= l(:label_enable_server_scripting_mode_hint) %></em><br/>
+
+  <label><%= l(:label_expand_all) %></label>
+  <%= check_box_tag 'settings[expand_all]', true, settings['expand_all'], id: 'expand_all_checkbox' %><br/>
+  <em><%= l(:label_expand_all_hint) %></em><br/>
+
+  <label><%= l(:label_collapsed_trackers) %></label>
+  <%= text_field_tag 'settings[collapsed_trackers]', settings['collapsed_trackers'], size: 60, id: 'collapsed_trackers_field' %><br/>
+  <em><%= l(:label_collapsed_trackers_hint) %></em><br/>
+
+</p>
+<script>
+$(document).ready(function() {
+  var tooltipText = "<%= j(l(:label_collapsed_trackers_hint_disabled)) %>";
+  toggleCollapsedTrackers();
+
+  $('#expand_all_checkbox').change(function() {
+    toggleCollapsedTrackers();
+  });
+
+  function toggleCollapsedTrackers() {
+    var $collapsedField = $('#collapsed_trackers_field');
+    if ($('#expand_all_checkbox').prop('checked')) {
+      $collapsedField.prop('disabled', false);
+      $collapsedField.removeAttr('title');
+    } else {
+      $collapsedField.prop('disabled', true);
+      $collapsedField.attr('title', tooltipText);
+    }  }
+});
+</script>

@@ -2,8 +2,6 @@
 
 This plugin provide accordion tree to subtask-list on issue.
 
-* http://www.redmine.org/plugins/redmine_subtask_list_accordion
-
 ## Features
 
 * Add accordion feature to subtask-list.
@@ -14,16 +12,18 @@ Server mode is faster than client mode, but server mode is tradeoff other subtas
 
 ## Compatibility
 
-Redmine 3.2 or 3.3 or 3.4 or 4.0 stable
+Redmine 3.2 or 3.3 or 3.4 or 4.0 or 5.0 stable
 
 Tested on:
 * 3.2.9
 * 3.3.6
 * 3.4.8
 * 4.0.1
+* 5.0.5
 
 ## Installation
 
 1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins
-2. Run the plugin migrations `rake redmine:plugins:migrate RAILS_ENV=production`
-3. Restart your Redmine web server
+1. Download the plugin `git clone https://github.com/RedminePower/redmine_subtask_list_accordion.git`
+1. Run the plugin migrations `bundle exec rake redmine:plugins:migrate RAILS_ENV=production`
+1. Restart your Redmine web server
