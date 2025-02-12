@@ -17,8 +17,8 @@ Redmine::Plugin.register :redmine_subtask_list_accordion do
   name 'Redmine Subtask List Accordion plugin'
   author 'Redmine Power'
   description 'This plugin provide accordion to subtask list of issue.'
-  version '2.3.0'
+  version '2.3.1'
   url 'https://github.com/RedminePower/redmine_subtask_list_accordion.git'
   author_url 'https://www.redmine-power.com/'
-  settings default: { 'enable_server_scripting_mode' => true, 'expand_all' => false, 'collapsed_trackers' => "" }, :partial => 'settings/subtask_list_accordion_settings'
+  settings default: { 'enable_server_scripting_mode' => true, 'expand_all' => false, 'collapsed_trackers' => "", 'collapsed_tracker_ids' => [] }, :partial => 'settings/subtask_list_accordion_settings'
 end

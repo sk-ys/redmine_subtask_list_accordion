@@ -94,14 +94,16 @@ module RedmineSubtaskListAccordion
         expand_all = Setting.plugin_redmine_subtask_list_accordion['expand_all']
         if expand_all
           collapsed_trackers = Setting.plugin_redmine_subtask_list_accordion['collapsed_trackers']
-          if !collapsed_trackers.nil? && !collapsed_trackers.blank?
-            begin
-              index = child.tracker.to_s =~ Regexp.new(collapsed_trackers)
-              return index.nil?
-            rescue => e
-              Rails.logger.warn "Failed to match regex. child.tracker=#{child.tracker.to_s} collapsed_trackers=#{collapsed_trackers}. Error: #{e.message}"
-              return true
-            end
+          collapsed_tracker_ids = Setting.plugin_redmine_subtask_list_accordion['collapsed_tracker_ids']
+
+          unless collapsed_trackers.blank?
+            collapsed_tracker_ids = Tracker.all.select { |t| t.name =~ Regexp.new(collapsed_trackers) }.map(&:id)
+            Setting.plugin_redmine_subtask_list_accordion['collapsed_tracker_ids'] = collapsed_tracker_ids
+            Setting.plugin_redmine_subtask_list_accordion['collapsed_trackers'] = nil
+          end
+
+          if collapsed_tracker_ids.present?
+            return collapsed_tracker_ids.include?(child.tracker.id.to_s)
           else
             return true
           end

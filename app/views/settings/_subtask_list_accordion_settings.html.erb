@@ -8,10 +8,22 @@
   <em><%= l(:label_expand_all_hint) %></em><br/>
 
   <label><%= l(:label_collapsed_trackers) %></label>
-  <%= text_field_tag 'settings[collapsed_trackers]', settings['collapsed_trackers'], size: 60, id: 'collapsed_trackers_field' %><br/>
+  <%= select_tag 'settings[collapsed_tracker_ids][]',
+        options_for_select(
+          Tracker.all.map{|t| [t.name, t.id]},
+          :selected => settings['collapsed_tracker_ids']
+        ),
+        {
+          :id => 'collapsed_trackers_field',
+          :label => l(:label_collapsed_trackers),
+          :size => (Tracker.all.size < 10 ? Tracker.all.size + 1 : 10),
+          :multiple => true,
+          :include_blank => true
+        }
+  %><br/>
   <em><%= l(:label_collapsed_trackers_hint) %></em><br/>
-
 </p>
+
 <script>
 $(document).ready(function() {
   var tooltipText = "<%= j(l(:label_collapsed_trackers_hint_disabled)) %>";

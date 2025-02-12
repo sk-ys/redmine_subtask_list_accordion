@@ -11,5 +11,5 @@ ja:
   label_expand_all: "デフォルトですべての子チケットを展開する"
   label_expand_all_hint: "有効にするとユーザごとに「デフォルトでツリーを展開する時の子チケット数上限」を設定しても機能しません。"
   label_collapsed_trackers: "収縮させるトラッカー"
-  label_collapsed_trackers_hint: "デフォルトで収縮させたいチケットのトラッカー名を正規表現で指定します。例 '実装|テスト'"
+  label_collapsed_trackers_hint: "デフォルトで収縮させたいチケットのトラッカー名を指定します。"
   label_collapsed_trackers_hint_disabled: "本設定は「デフォルトですべての子チケットを展開する」が有効の場合のみ設定できます。"

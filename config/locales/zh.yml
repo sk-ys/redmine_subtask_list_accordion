@@ -11,5 +11,5 @@ zh:
   label_expand_all: "默认情况下展开所有子问题"
   label_expand_all_hint: "如果启用，为每个用户设置 '子任务树中的问题数量上限（初次加载）' 将不起作用。"
   label_collapsed_trackers: "要折叠的跟踪器"
-  label_collapsed_trackers_hint: "使用正则表达式指定要默认折叠的问题跟踪器的名称。示例 实施|测试"
+  label_collapsed_trackers_hint: "指定要默认折叠的问题跟踪器的名称。"
   label_collapsed_trackers_hint_disabled: "只有启用 「默认情况下展开所有子问题」 时才能设置此设置。"

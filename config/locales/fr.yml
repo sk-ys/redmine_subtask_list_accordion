@@ -11,5 +11,5 @@ fr:
   label_expand_all: "Expand all child issues by default"
   label_expand_all_hint: "If enabled, setting 'Upper limit of child issues to tree expanding from the first time' for each user will not work."
   label_collapsed_trackers: "Trackers to be collapsed"
-  label_collapsed_trackers_hint: "Specify the name of the tracker of the issue you want to collapse by default, using a regular expression. Example 'implementation|test'"
+  label_collapsed_trackers_hint: "Specify the name of the tracker of the issue you want to collapse by default."
   label_collapsed_trackers_hint_disabled: "This setting can be set only when Expand all child issues by default is enabled."
