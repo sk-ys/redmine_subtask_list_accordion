@@ -295,7 +295,8 @@ $(document).ready(function () {
             mutation.addedNodes.forEach((node) => {
               if (
                 node.nodeType === Node.ELEMENT_NODE &&
-                $(node).is("div.issue.details")
+                ($(node).is("div.issue.details") ||
+                  $(node).is($("#issue_tree table.list.issues").parent("form")))
               ) {
                 setupAccordionClient();
               }
